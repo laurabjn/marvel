@@ -17,8 +17,19 @@ const router = createRouter({
       component: HeroesViewVue
     },
     {
+      path: '/heroes/:id',
+      name: 'hero',
+      component: HeroesViewVue
+    },
+    {
       path: '/comics',
       name: 'comics',
+      component: ComicsViewVue
+    }
+    ,
+    {
+      path: '/comics/:id',
+      name: 'comic',
       component: ComicsViewVue
     }
   ]
