@@ -6,16 +6,16 @@ import TheHeroCard from './TheHeroCard.vue';
 export default defineComponent ({
     setup() {
         const store = useHeroesStore()
-        const getAllHeroes = computed(() => {
-            return store.getAllHeroes
-        })
         const heroes = computed(() => {
             return store.heroesList
         })
+        const meta = computed(() => {
+            return store.meta
+        })
         return {
             store,
-            getAllHeroes,
-            heroes
+            heroes,
+            meta
         }
     },
     name: "HeroesList",
@@ -24,12 +24,12 @@ export default defineComponent ({
     },
     mounted() {
         this.store.fetchHeroes()
-    },
+    }
 })
 </script>
 <template>
     <div class="container">
-        <div class="heroes-list" v-bind:key="hero.character.id" v-for="hero in heroes">
+        <div class="heroes-list" v-bind:key="hero" v-for="hero in heroes">
             <TheHeroCard v-bind:hero="hero" v-bind:more-info="true" />
         </div>
     </div>

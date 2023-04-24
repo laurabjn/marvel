@@ -1,21 +1,22 @@
 import { defineStore } from 'pinia'
-import { secret_key, public_key } from '@/marvel'
+import { secret_key, public_key } from '@/utils/marvel'
+import { getHash } from '@/utils/generate-hash'
 import axios from 'axios'
 
 export const useComicsStore = defineStore('comics', {
     state: () => ({
         comicsList: [],
+        meta: []
     }),
-    getters: {
-        getAllComics(state) {
-            return state.comicsList
-        }
-    },
     actions: {
         async fetchComics() {
             try {
-                const data = await axios.get(`http://gateway.marvel.com/v1/public/comics?apikey=${public_key}`)
-                this.comicsList = data.data
+                let ts = Date.now().toString();
+                let hash = getHash(ts, secret_key, public_key);
+                const data = await axios.get(`https://gateway.marvel.com:443/v1/public/comics?limit=20&ts=${ts}&apikey=${public_key}&hash=${hash}`)
+                this.comicsList = data.data.data.results
+                this.meta = data.data.data
+                console.log(this.meta)
             } catch (error) {
                 alert(error)
                 console.log(error)
@@ -27,6 +28,7 @@ export const useComicsStore = defineStore('comics', {
 export const useHeroesStore = defineStore('heroes', {
     state: () => ({
         heroesList: [],
+        meta: []
     }),
     getters: {
         getAllHeroes(state) {
@@ -36,8 +38,13 @@ export const useHeroesStore = defineStore('heroes', {
     actions: {
         async fetchHeroes() {
             try {
-                const data = await axios.get(`http://gateway.marvel.com/v1/public/characters?apikey=${public_key}`)
-                this.heroesList = data.data
+                let ts = Date.now().toString();
+                let hash = getHash(ts, secret_key, public_key);
+                const data = await axios.get(`https://gateway.marvel.com:443/v1/public/characters?limit=20&ts=${ts}&apikey=${public_key}&hash=${hash}`)
+                this.heroesList = data.data.data.results
+                this.meta = data.data.data
+                console.log(this.heroesList)
+                console.log(this.meta)
             } catch (error) {
                 alert(error)
                 console.log(error)

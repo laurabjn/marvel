@@ -13,17 +13,19 @@ export default defineComponent ({
 <template>
     <div class="container">
         <div class="image">
-            <img :src="comic.comic.thumbnail"/>
+            <img :src="comic.thumbnail"/>
         </div>
         <div class="content">
-            <div class="header">{{ comic.comic.title }}</div>
-            <div class="description">{{ comic.comic.description }}</div>
+            <div class="header">{{ comic.title }}</div>
+            <div class="description">{{ comic.description }}</div>
         </div>
         <div v-if="moreInfo">
-            <RouterLink class="btn-more" to="/comics/:comic.id">More Info</RouterLink>
+            <RouterLink class="btn-more" to="/comics/:comicId">More Info</RouterLink>
         </div>
     </div>
 </template>
 <style scoped>
-
+    .container {
+        width: 500px;
+    }
 </style>

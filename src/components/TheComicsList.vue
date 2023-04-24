@@ -6,16 +6,16 @@ import TheComicCard from './TheComicCard.vue';
 export default defineComponent ({
     setup() {
         const store = useComicsStore()
-        const getAllComics = computed(() => {
-            return store.getAllComics
-        })
         const comics = computed(() => {
             return store.comicsList
         })
+        const meta = computed(() => {
+            return store.meta
+        })
         return {
             store,
-            getAllComics,
-            comics
+            comics,
+            meta
         }
     },
     name: "ComicsList",
@@ -29,7 +29,7 @@ export default defineComponent ({
 </script>
 <template>
     <div class="container">
-        <div class="comics-list" v-bind:key="comic.comic.id" v-for="comic in comics">
+        <div class="comics-list" v-bind:key="comic" v-for="comic in comics">
             <TheComicCard v-bind:comic="comic" v-bind:more-info="true" />
         </div>
     </div>
