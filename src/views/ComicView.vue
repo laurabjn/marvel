@@ -24,6 +24,7 @@ export default defineComponent ({
         })
         return {
             store,
+            storeHeroes,
             lcomic,
             heroes,
             meta

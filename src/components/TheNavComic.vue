@@ -15,7 +15,7 @@ export default defineComponent ({
 </script>
 <template>
     <div class="container" v-bind:key="hero.id" v-for="hero in heroes">
-        <TheHeroCard v-bind:hero="hero" v-bind:more-info="true" />
+        {{ hero.name }}
     </div>
 </template>
 <style scoped>
