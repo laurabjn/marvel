@@ -4,27 +4,13 @@ import { useHeroesStore } from '@/stores';
 import TheHeroCard from './TheHeroCard.vue';
 
 export default defineComponent ({
-    setup() {
-        const store = useHeroesStore()
-        const heroes = computed(() => {
-            return store.heroesList
-        })
-        const meta = computed(() => {
-            return store.meta
-        })
-        return {
-            store,
-            heroes,
-            meta
-        }
-    },
     name: "HeroesList",
     components: {
         TheHeroCard
     },
-    mounted() {
-        this.store.fetchHeroes()
-    }
+    props: [
+        "heroes"
+    ]
 })
 </script>
 <template>

@@ -1,23 +1,69 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
-import SearchBar from '@/components/SearchBar.vue';
-import TheHeroesList from '@/components/TheHeroesList.vue';
+import { defineComponent, computed } from 'vue';
+import { useHeroesStore } from '@/stores';
+import TheHeroCard from '@/components/TheHeroCard.vue';
 
 export default defineComponent ({
     name: "Heroes",
+    data() {
+        return {
+            exampleItems: [],
+            pageOfItems: [],
+            search: ""
+        };
+    },
     components: {
-        SearchBar,
-        TheHeroesList
+        TheHeroCard
+    },
+    methods: {
+        onChangePage(pageOfItems: []) {
+            this.pageOfItems = pageOfItems;
+        }
+    },
+    setup() {
+        const store = useHeroesStore()
+        const heroes = computed(() => {
+            return store.heroesList
+        })
+        const meta = computed(() => {
+            return store.meta
+        })
+        return {
+            store,
+            heroes,
+            meta
+        }
+    },
+    mounted() {
+        this.store.fetchHeroes()
+    },
+    computed: {
+        filteredHeroes() {
+            console.log(this.search)
+            return this.heroes.filter((hero: any) => {
+                console.log(hero.name.toLowerCase())
+                return hero.name.toLowerCase().indexOf(this.search.toLowerCase()) != -1
+            })
+        }
     }
 })
 </script>
 <template>
     <div class="container">
         <div class="search-bar">
-            <SearchBar />
+            <input  type="text"
+                class="search"
+                v-model="search"
+                placeholder="Search..."
+            />
         </div>
-        <div class="list">
-            <TheHeroesList />
+        <div v-if="filteredHeroes.length != 0">
+            <div class="heroes-list" v-bind:key="hero" v-for="hero in filteredHeroes">
+                <TheHeroCard v-bind:hero="hero" v-bind:more-info="true" />
+            </div>
+        </div>
+        <div v-else>
+            <div class="no-data">There is no hero that matches your search</div>
         </div>
     </div>
 </template>
