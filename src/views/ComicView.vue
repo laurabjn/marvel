@@ -1,24 +1,45 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
-import TheComicCard from '@/components/TheComicCard.vue';
+import { defineComponent, computed } from 'vue';
+import { useComicStore, useComicHeroesStore } from '@/stores';
 import TheNavComic from '@/components/TheNavComic.vue';
+import TheInfoComic from '@/components/TheInfoComic.vue';
 
 export default defineComponent ({
     name: "Comic",
-    props: [
-        "comic"
-    ],
     components: {
-        TheComicCard,
+        TheInfoComic,
         TheNavComic
-    }
+    },
+    setup() {
+        const store = useComicStore()
+        const storeHeroes = useComicHeroesStore()
+        const lcomic = computed(() => {
+            return store.comic
+        })
+        const heroes = computed(() => {
+            return storeHeroes.heroesList
+        })
+        const meta = computed(() => {
+            return storeHeroes.meta
+        })
+        return {
+            store,
+            lcomic,
+            heroes,
+            meta
+        }
+    },
+    mounted() {
+        this.store.fetchComicById(this.$route.params.id)
+        this.storeHeroes.fetchComicHeroesById(this.$route.params.id)
+    },
 })
 </script>
 <template>
     <div class="container">
-        <TheComicCard v-bind:more-info="false" />
+        <TheInfoComic v-bind:comic="lcomic" />
         <div class="nav-comic">
-            <TheComicCard v-bind:comic="comic" />
+            <TheNavComic v-bind:heroes="heroes" v-bind:meta="meta" />
         </div>
     </div>
 </template>

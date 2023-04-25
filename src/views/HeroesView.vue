@@ -39,9 +39,7 @@ export default defineComponent ({
     },
     computed: {
         filteredHeroes() {
-            console.log(this.search)
             return this.heroes.filter((hero: any) => {
-                console.log(hero.name.toLowerCase())
                 return hero.name.toLowerCase().indexOf(this.search.toLowerCase()) != -1
             })
         }
@@ -54,7 +52,7 @@ export default defineComponent ({
             <input  type="text"
                 class="search"
                 v-model="search"
-                placeholder="Search..."
+                placeholder="Search a hero..."
             />
         </div>
         <div v-if="filteredHeroes.length != 0">

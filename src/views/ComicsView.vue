@@ -39,9 +39,7 @@ export default defineComponent ({
     },
     computed: {
         filteredComics() {
-            console.log(this.search)
             return this.comics.filter((comic: any) => {
-                console.log(comic.title.toLowerCase())
                 return comic.title.toLowerCase().indexOf(this.search.toLowerCase()) != -1
             })
         }

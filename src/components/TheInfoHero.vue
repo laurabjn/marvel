@@ -1,12 +1,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { RouterLink } from 'vue-router';
 
 export default defineComponent ({
-    name: "HeroCard",
+    name: "InfoHero",
     props: [
-        "hero",
-        "moreInfo"
+        "hero"
     ]
 })
 </script>
@@ -19,13 +17,7 @@ export default defineComponent ({
             <div class="header">{{ hero.name }}</div>
             <div class="description">{{ hero.description }}</div>
         </div>
-        <div v-if="moreInfo">
-            <RouterLink class="btn-more" :to="`/heroes/${hero.id}`">More Info</RouterLink>
-        </div>
     </div>
 </template>
 <style scoped>
-    .container {
-        width: 500px;
-    }
 </style>

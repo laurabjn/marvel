@@ -5,7 +5,8 @@ import TheComicCard from './TheComicCard.vue';
 export default defineComponent ({
     name: "NavHero",
     props: [
-        "hero"
+        "comics",
+        "meta"
     ],
     components: {
         TheComicCard
@@ -13,7 +14,7 @@ export default defineComponent ({
 })
 </script>
 <template>
-    <div class="container" v-bind:key="comic.id" v-for="comic in hero.comics">
+    <div class="container" v-bind:key="comic.id" v-for="comic in comics">
         <TheHeroCard v-bind:comic="comic" v-bind:more-info="true" />
     </div>
 </template>
