@@ -11,13 +11,13 @@ export default defineComponent ({
         <nav class="nav">
             <ul class="nav-ul">
                 <li class="nav-li">
-                    <RouterLink class="nav--link" to="/">Marvel Projet</RouterLink>
+                    <RouterLink class="link" to="/">Home</RouterLink>
                 </li>
                 <li class="nav-li">
-                    <RouterLink class="nav--link" to="/heroes">Heroes</RouterLink>
+                    <RouterLink class="link" to="/heroes">Heroes</RouterLink>
                 </li>
                 <li class="nav-li">
-                    <RouterLink class="nav--link" to="/comics">Comics</RouterLink>
+                    <RouterLink class="link" to="/comics">Comics</RouterLink>
                 </li>
             </ul>
         </nav>
@@ -31,19 +31,17 @@ export default defineComponent ({
 }
 .nav-ul {
     list-style-type: none;
-    margin: 0;
-    padding: 0;
+    text-align: center;
 }
 .nav-li {
     display: inline;
-    margin: 30px;
-}
-.nav--link {
-    align-items: center;
     color: white;
+    margin: 50px;
+    font-size: 17px;
 }
-.nav--link a:hover {
+.nav-li a:hover {
+    background-color: #252424;
     font-weight: bold;
-    color: #931C10;
+    color: #be1c0d;
 }
 </style>

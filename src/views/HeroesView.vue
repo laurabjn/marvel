@@ -25,6 +25,7 @@ export default defineComponent ({
         const heroes = computed(() => {
             return store.heroesList
         })
+        console.log('heroes', heroes)
         const meta = computed(() => {
             return store.meta
         })
@@ -57,7 +58,7 @@ export default defineComponent ({
         </div>
         <div v-if="filteredHeroes.length != 0">
             <div class="heroes-list" v-bind:key="hero" v-for="hero in filteredHeroes">
-                <TheHeroCard v-bind:hero="hero" v-bind:more-info="true" />
+                <TheHeroCard v-bind:hero="hero" />
             </div>
         </div>
         <div v-else>
@@ -66,5 +67,26 @@ export default defineComponent ({
     </div>
 </template>
 <style scoped>
-
+.container {
+    margin: 60px;
+}
+.search-bar {
+    text-align: center;
+}
+.heroes-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+.search {
+    height: 30px;
+    width: 550px;
+}
+.no-data {
+    margin: 50px; 
+    font-size: 15px;
+    text-align: center;
+}
 </style>

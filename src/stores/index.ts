@@ -81,7 +81,7 @@ export const useHeroesStore = defineStore('heroes', {
                 const data = await axios.get(`https://gateway.marvel.com:443/v1/public/characters?limit=20&ts=${ts}&apikey=${public_key}&hash=${hash}`)
                 this.heroesList = data.data.data.results
                 this.meta = data.data.data
-                console.log(this.heroesList)
+                console.log('list', this.heroesList)
                 console.log(this.meta)
             } catch (error) {
                 alert(error)

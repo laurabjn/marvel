@@ -2,7 +2,7 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent ({
-    name: "InfoHero",
+    name: "TheInfoHero",
     props: [
         "hero"
     ]
@@ -14,7 +14,7 @@ export default defineComponent ({
             <img :src="hero.thumbnail"/>
         </div>
         <div class="content">
-            <div class="header">{{ hero.name }}</div>
+            <div class="name">{{ hero.name }}</div>
             <div class="description">{{ hero.description }}</div>
         </div>
     </div>

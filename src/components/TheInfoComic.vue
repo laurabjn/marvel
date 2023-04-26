@@ -2,9 +2,9 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent ({
-    name: "InfoComic",
+    name: "TheInfoComic",
     props: [
-        "comic",
+        "comic"
     ]
 })
 </script>
@@ -14,7 +14,7 @@ export default defineComponent ({
             <img :src="comic.thumbnail"/>
         </div>
         <div class="content">
-            <div class="header">{{ comic.title }}</div>
+            <div class="title">{{ comic.title }}</div>
             <div class="description">{{ comic.description }}</div>
         </div>
     </div>

@@ -57,7 +57,7 @@ export default defineComponent ({
         </div>
         <div v-if="filteredComics.length != 0">
             <div class="comics-list" v-bind:key="comic" v-for="comic in filteredComics">
-                <TheComicCard v-bind:comic="comic" v-bind:more-info="true" />
+                <TheComicCard v-bind:comic="comic" />
             </div>
         </div>
         <div v-else>
@@ -66,5 +66,26 @@ export default defineComponent ({
     </div>
 </template>
 <style scoped>
-
+.container {
+    margin: 60px;
+}
+.search-bar {
+    text-align: center;
+}
+.search {
+    height: 30px;
+    width: 550px;
+}
+.comics-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+.no-data {
+    margin: 50px; 
+    font-size: 15px;
+    text-align: center;
+}
 </style>

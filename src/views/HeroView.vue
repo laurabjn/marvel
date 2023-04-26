@@ -12,11 +12,12 @@ export default defineComponent ({
     },    
     setup() {
         const store = useHeroStore()
-        const storeComics = useHeroComicsStore()
         const lhero = computed(() => {
+            console.log('store.hero', store.hero)
             return store.hero
         })
-        console.log(lhero)
+        console.log('lhero', lhero.value)
+        const storeComics = useHeroComicsStore()
         const comics = computed(() => {
             return storeComics.comicsList
         })
@@ -25,8 +26,8 @@ export default defineComponent ({
         })
         return {
             store,
-            storeComics,
             lhero,
+            storeComics,
             comics,
             meta
         }
@@ -39,7 +40,9 @@ export default defineComponent ({
 </script>
 <template>
     <div class="container">
-        <TheInfoHero v-bind:hero="lhero"/>
+        <div class="info-hero">
+            <TheInfoHero v-bind:hero="lhero"/>
+        </div>
         <div class="nav-hero">
             <TheNavHero v-bind:comics="comics" v-bind:meta="meta" />
         </div>

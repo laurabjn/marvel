@@ -16,6 +16,7 @@ export default defineComponent ({
         const lcomic = computed(() => {
             return store.comic
         })
+        console.log('lcomic', lcomic.value)
         const heroes = computed(() => {
             return storeHeroes.heroesList
         })
