@@ -21,15 +21,11 @@ export default defineComponent ({
         const comics = computed(() => {
             return storeComics.comicsList
         })
-        const meta = computed(() => {
-            return storeComics.meta
-        })
         return {
             store,
             lhero,
             storeComics,
-            comics,
-            meta
+            comics
         }
     },
     mounted() {
@@ -43,11 +39,25 @@ export default defineComponent ({
         <div class="info-hero">
             <TheInfoHero v-bind:hero="lhero"/>
         </div>
-        <div class="nav-hero">
-            <TheNavHero v-bind:comics="comics" v-bind:meta="meta" />
+       <hr/> 
+        <div class="nav-hero" v-if="comics.length != 0">
+            <TheNavHero v-bind:comics="comics" />
+        </div>
+        <div v-else>
+            <div class="no-data">There is no hero that matches your search</div>
         </div>
     </div>
 </template>
 <style scoped>
-
+.container {
+    margin: 50px;
+}
+.nav-hero {
+    margin: 30px;
+}
+.no-data {
+    margin: 50px; 
+    font-size: 15px;
+    text-align: center;
+}
 </style>

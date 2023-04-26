@@ -5,8 +5,7 @@ import TheComicCard from './TheComicCard.vue';
 export default defineComponent ({
     name: "NavHero",
     props: [
-        "comics",
-        "meta"
+        "comics"
     ],
     components: {
         TheComicCard
@@ -15,9 +14,11 @@ export default defineComponent ({
 </script>
 <template>
     <div class="container" v-bind:key="comic.id" v-for="comic in comics">
-        {{ comic.title }}
+        <li class="title">{{ comic.title }}</li>
     </div>
 </template>
 <style scoped>
-
+.container {
+    margin: 30px;
+}
 </style>

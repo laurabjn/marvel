@@ -5,18 +5,15 @@ import axios from 'axios'
 
 export const useComicsStore = defineStore('comics', {
     state: () => ({
-        comicsList: [],
-        meta: []
+        comicsList: []
     }),
     actions: {
         async fetchComics() {
             try {
                 let ts = Date.now().toString();
                 let hash = getHash(ts, secret_key, public_key);
-                const data = await axios.get(`https://gateway.marvel.com:443/v1/public/comics?limit=20&ts=${ts}&apikey=${public_key}&hash=${hash}`)
+                const data = await axios.get(`https://gateway.marvel.com:443/v1/public/comics?limit=30&ts=${ts}&apikey=${public_key}&hash=${hash}`)
                 this.comicsList = data.data.data.results
-                this.meta = data.data.data
-                console.log(this.meta)
             } catch (error) {
                 alert(error)
                 console.log(error)
@@ -47,8 +44,7 @@ export const useComicStore = defineStore('comic', {
 
 export const useComicHeroesStore = defineStore('comicHeroes', {
     state: () => ({
-        heroesList: [],
-        meta: []
+        heroesList: []
     }),
     actions: {
         async fetchComicHeroesById(id: string | string[]) {
@@ -57,8 +53,6 @@ export const useComicHeroesStore = defineStore('comicHeroes', {
                 let hash = getHash(ts, secret_key, public_key);
                 const data = await axios.get(`https://gateway.marvel.com:443/v1/public/comics/${id}/characters?ts=${ts}&apikey=${public_key}&hash=${hash}`)
                 this.heroesList = data.data.data.results
-                this.meta = data.data.data
-                console.log(this.meta)
                 console.log(this.heroesList)
             } catch (error) {
                 alert(error)
@@ -70,19 +64,16 @@ export const useComicHeroesStore = defineStore('comicHeroes', {
 
 export const useHeroesStore = defineStore('heroes', {
     state: () => ({
-        heroesList: [],
-        meta: []
+        heroesList: []
     }),
     actions: {
         async fetchHeroes() {
             try {
                 let ts = Date.now().toString();
                 let hash = getHash(ts, secret_key, public_key);
-                const data = await axios.get(`https://gateway.marvel.com:443/v1/public/characters?limit=20&ts=${ts}&apikey=${public_key}&hash=${hash}`)
+                const data = await axios.get(`https://gateway.marvel.com:443/v1/public/characters?limit=30&ts=${ts}&apikey=${public_key}&hash=${hash}`)
                 this.heroesList = data.data.data.results
-                this.meta = data.data.data
                 console.log('list', this.heroesList)
-                console.log(this.meta)
             } catch (error) {
                 alert(error)
                 console.log(error)
@@ -113,8 +104,7 @@ export const useHeroStore = defineStore('hero', {
 
 export const useHeroComicsStore = defineStore('heroComics', {
     state: () => ({
-        comicsList: [],
-        meta: []
+        comicsList: []
     }),
     actions: {
         async fetchHeroComicsById(id: string | string[]) {
@@ -123,8 +113,6 @@ export const useHeroComicsStore = defineStore('heroComics', {
                 let hash = getHash(ts, secret_key, public_key);
                 const data = await axios.get(`https://gateway.marvel.com:443/v1/public/characters/${id}/comics?ts=${ts}&apikey=${public_key}&hash=${hash}`)
                 this.comicsList = data.data.data.results
-                this.meta = data.data.data
-                console.log(this.meta)
                 console.log(this.comicsList)
             } catch (error) {
                 alert(error)
