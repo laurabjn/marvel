@@ -78,14 +78,14 @@ export default defineComponent ({
             <div v-bind:key="comic" v-for="comic in filteredComics">
                 <TheComicCard v-bind:comic="comic" />
             </div>
-            <div class="pagination">
-                <Pagination
-                    v-bind:items="filteredComics"
-                    v-bind:current-page="currentPage"
-                    v-bind:pageSize="pageSize"
-                    @page-update-event="onClickHandler"
-                ></Pagination>
-            </div>
+        </div>
+        <div class="pagination" v-if="filteredComics.length != 0">
+            <Pagination
+                v-bind:items="filteredComics"
+                v-bind:current-page="currentPage"
+                v-bind:pageSize="pageSize"
+                @page-update-event="onClickHandler"
+            ></Pagination>
         </div>
         <div v-else>
             <div class="no-data">There is no comic that matches your search</div>
@@ -120,6 +120,7 @@ export default defineComponent ({
     font-size: 15px;
 }
 .pagination {
+
     text-align: center;
 }
 .pagination-container {

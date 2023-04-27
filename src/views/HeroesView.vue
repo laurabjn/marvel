@@ -78,14 +78,14 @@ export default defineComponent ({
             <div v-bind:key="hero" v-for="hero in filteredHeroes">
                 <TheHeroCard v-bind:hero="hero" />
             </div>
-            <div class="pagination">
-                <Pagination
-                    v-bind:items="filteredHeroes"
-                    v-bind:current-page="currentPage"
-                    v-bind:pageSize="pageSize"
-                    @page-update-event="onClickHandler"
-                ></Pagination>
-            </div>
+        </div>
+        <div class="pagination" v-if="filteredHeroes.length != 0">
+            <Pagination
+                v-bind:items="filteredHeroes"
+                v-bind:current-page="currentPage"
+                v-bind:pageSize="pageSize"
+                @page-update-event="onClickHandler"
+            ></Pagination>
         </div>
         <div v-else>
             <div class="no-data">There is no hero that matches your search</div>
