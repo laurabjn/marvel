@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent } from 'vue';
 import { useHeroesStore } from '@/stores';
 import TheHeroCard from '@/components/TheHeroCard.vue';
 
@@ -17,25 +17,22 @@ export default defineComponent ({
     methods: {
         onClickHandler(page: number) {
             console.log(page)
+            const newOffset = (page * 6) % this.store.getHeroes.length
+            console.log(newOffset)
         }
     },
     setup() {
         const store = useHeroesStore()
-        const heroes = computed(() => {
-            return store.heroesList
-        })
-        console.log('heroes', heroes)
         return {
-            store,
-            heroes
+            store
         }
     },
-    mounted() {
-        this.store.fetchHeroes()
+    async mounted() {
+       await this.store.fetchHeroes()
     },
     computed: {
         filteredHeroes() {
-            return this.heroes.filter((hero: any) => {
+            return this.store.getHeroes.filter((hero: any) => {
                 return hero.name.toLowerCase().indexOf(this.search.toLowerCase()) != -1
             })
         }

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { defineComponent } from 'vue';
 import { useComicsStore } from '@/stores';
 import TheComicCard from '@/components/TheComicCard.vue';
 
@@ -21,12 +21,8 @@ export default defineComponent ({
     },
     setup() {
         const store = useComicsStore()
-        const comics = computed(() => {
-            return store.comicsList
-        })
         return {
-            store,
-            comics
+            store
         }
     },
     mounted() {
@@ -34,7 +30,7 @@ export default defineComponent ({
     },
     computed: {
         filteredComics() {
-            return this.comics.filter((comic: any) => {
+            return this.store.getComics.filter((comic: any) => {
                 return comic.title.toLowerCase().indexOf(this.search.toLowerCase()) != -1
             })
         }
