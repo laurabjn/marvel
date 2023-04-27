@@ -40,7 +40,6 @@ export default defineComponent ({
                 this.heroes = response.data.data.results
                 this.isLoading = false
                 console.log('this.heroes', this.heroes)
-                console.log('this.isLoading', this.isLoading)
             })
             .catch((error) => {
                 console.log(error)
@@ -75,8 +74,8 @@ export default defineComponent ({
                 placeholder="Search a hero..."
             />
         </div>
-        <div v-if="filteredHeroes.length != 0">
-            <div class="heroes-list" v-bind:key="hero" v-for="hero in filteredHeroes">
+        <div class="heroes-list" v-if="filteredHeroes.length != 0">
+            <div v-bind:key="hero" v-for="hero in filteredHeroes">
                 <TheHeroCard v-bind:hero="hero" />
             </div>
             <div class="pagination">
@@ -103,7 +102,6 @@ export default defineComponent ({
 }
 .heroes-list {
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
 }

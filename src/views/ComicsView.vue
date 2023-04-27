@@ -74,8 +74,8 @@ export default defineComponent ({
                 placeholder="Search a comic..."
             />
         </div>
-        <div v-if="filteredComics.length != 0">
-            <div class="comics-list" v-bind:key="comic" v-for="comic in filteredComics">
+        <div class="comics-list" v-if="filteredComics.length != 0">
+            <div v-bind:key="comic" v-for="comic in filteredComics">
                 <TheComicCard v-bind:comic="comic" />
             </div>
             <div class="pagination">
@@ -109,7 +109,6 @@ export default defineComponent ({
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    margin: 0 auto;
 }
 .no-data {
     margin: 50px; 
