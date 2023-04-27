@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent } from 'vue';
 import { useComicStore, useComicHeroesStore } from '@/stores';
 import TheNavComic from '@/components/TheNavComic.vue';
 import TheInfoComic from '@/components/TheInfoComic.vue';
@@ -13,34 +13,27 @@ export default defineComponent ({
     setup() {
         const store = useComicStore()
         const storeHeroes = useComicHeroesStore()
-        const lcomic = computed(() => {
-            return store.comic
-        })
-        console.log('lcomic', lcomic.value)
-        const heroes = computed(() => {
-            return storeHeroes.heroesList
-        })
         return {
             store,
-            storeHeroes,
-            lcomic,
-            heroes
+            storeHeroes
         }
     },
-    mounted() {
-        this.store.fetchComicById(this.$route.params.id)
-        this.storeHeroes.fetchComicHeroesById(this.$route.params.id)
+    async mounted() {
+        await this.store.fetchComicById(this.$route.params.id)
+        await this.storeHeroes.fetchComicHeroesById(this.$route.params.id)
+        console.log('getcomic', this.store.getComic)
+        console.log('getHeroes', this.storeHeroes.getComicHeroes)
     },
 })
 </script>
 <template>
     <div class="container">
         <div class="info-comic">
-            <TheInfoComic v-bind:comic="lcomic" />
+            <TheInfoComic v-bind:comics="store.getComic" />
         </div>
         <hr/> 
-        <div class="nav-comic" v-if="heroes.length != 0">
-            <TheNavComic v-bind:heroes="heroes" />
+        <div class="nav-comic" v-if="storeHeroes.getComicHeroes.length != 0">
+            <TheNavComic v-bind:heroes="storeHeroes.getComicHeroes" />
         </div>
         <div v-else>
             <div class="no-data">There is no hero in that comic</div>
@@ -50,6 +43,9 @@ export default defineComponent ({
 <style scoped>
 .container {
     margin: 50px;
+}
+.info-comic {
+    margin: 30px
 }
 .nav-comic {
     margin: 30px;

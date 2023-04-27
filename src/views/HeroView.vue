@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent } from 'vue';
 import { useHeroStore, useHeroComicsStore } from '@/stores';
 import TheNavHero from '@/components/TheNavHero.vue';
 import TheInfoHero from '@/components/TheInfoHero.vue';
@@ -9,39 +9,31 @@ export default defineComponent ({
     components: {
         TheInfoHero, 
         TheNavHero
-    },    
+    },
     setup() {
         const store = useHeroStore()
-        const lhero = computed(() => {
-            console.log('store.hero', store.hero)
-            return store.hero
-        })
-        console.log('lhero', lhero.value)
         const storeComics = useHeroComicsStore()
-        const comics = computed(() => {
-            return storeComics.comicsList
-        })
         return {
             store,
-            lhero,
             storeComics,
-            comics
         }
     },
-    mounted() {
-        this.store.fetchHeroById(this.$route.params.id)
-        this.storeComics.fetchHeroComicsById(this.$route.params.id)
+    async mounted() {
+        await this.store.fetchHeroById(this.$route.params.id)
+        await this.storeComics.fetchHeroComicsById(this.$route.params.id)
+        console.log('getHero', this.store.getHero)
+        console.log('getComics', this.storeComics.getHeroComics)
     },
 })
 </script>
 <template>
     <div class="container">
         <div class="info-hero">
-            <TheInfoHero v-bind:hero="lhero"/>
+            <TheInfoHero v-bind:heroes="store.getHero"/>
         </div>
        <hr/> 
-        <div class="nav-hero" v-if="comics.length != 0">
-            <TheNavHero v-bind:comics="comics" />
+        <div class="nav-hero" v-if="storeComics.getHeroComics.length != 0">
+            <TheNavHero v-bind:comics="storeComics.getHeroComics" />
         </div>
         <div v-else>
             <div class="no-data">There is no hero that matches your search</div>

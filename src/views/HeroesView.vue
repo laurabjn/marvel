@@ -72,17 +72,16 @@ export default defineComponent ({
 </template>
 <style scoped>
 .container {
-    margin: 60px;
+    margin: 30px;
 }
 .search-bar {
     text-align: center;
 }
 .heroes-list {
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    margin: 0 auto;
 }
 .search {
     height: 30px;

@@ -13,12 +13,16 @@ export default defineComponent ({
 })
 </script>
 <template>
+    <div class="header">The following heroes are in this comic : </div>
     <div class="container" v-bind:key="hero.id" v-for="hero in heroes">
-        <li class="name">{{ hero.name }}</li>
+        <li>{{ hero.name }}</li>
     </div>
 </template>
 <style scoped>
 .container {
-    margin: 50px;
+    margin: 20px;
+}
+.header {
+    font-size: 15px;
 }
 </style>
