@@ -27,7 +27,20 @@ export default defineComponent ({
 .nav {
     height: 50px;
     width: auto;
+    padding: 10px;
     background-color: #252424;
+}
+nav a {
+    color: white;
+}
+.nav a:hover {
+    font-size: 18px;
+    font-weight: bold;
+    color: #d12525;
+    background-color: #252424;
+}
+.nav a.router-link-exact-active {
+    background-color: #d12525;
 }
 .nav-ul {
     list-style-type: none;
@@ -38,10 +51,5 @@ export default defineComponent ({
     color: white;
     margin: 50px;
     font-size: 17px;
-}
-.nav-li a:hover {
-    background-color: #252424;
-    font-weight: bold;
-    color: #be1c0d;
 }
 </style>

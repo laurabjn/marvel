@@ -30,7 +30,7 @@ export default defineComponent ({
 <style scoped>
 .container {
     width: 400px;
-    height: 500px;
+    height: 520px;
     background-color: lightgrey;
     overflow: hidden;
     -moz-transition: all .2s ease-in;
