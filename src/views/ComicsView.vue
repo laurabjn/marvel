@@ -1,36 +1,64 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useComicsStore } from '@/stores';
+import { useApiKey } from '@/stores';
 import TheComicCard from '@/components/TheComicCard.vue';
+import Pagination from '../components/Pagination.vue';
+import { getHash } from '@/utils/generate-hash';
+import axios from 'axios';
 
 export default defineComponent ({
     name: "Comics",
     data() {
         return {
-            currentPage: 1,
-            search: ""
+            currentPage: 0,
+            pageSize: 6,
+            search: "",
+            historyList: [],
+            isLoading: false,
+            comics: []
         };
     },
     components: {
-        TheComicCard
+        TheComicCard,
+        Pagination
     },
     methods: {
         onClickHandler(page: number) {
-            console.log(page)
+			let start = (page - 1) * this.pageSize
+			let end = page * this.pageSize
+			this.historyList = this.filteredComics.slice(start, end)
+			this.currentPage = page
+            console.log(this.currentPage)
+            console.log(this.historyList)
+        },
+        fetchComics() {
+            this.isLoading = true
+            let ts = Date.now().toString();
+            let hash = getHash(ts, this.store.getSecretKey, this.store.getPublicKey);
+            axios.get(`https://gateway.marvel.com:443/v1/public/comics?limit=30&ts=${ts}&apikey=${this.store.getPublicKey}&hash=${hash}`)
+            .then((response) => {
+                this.comics = response.data.data.results
+                this.isLoading = false
+                console.log('this.comics', this.comics)
+            })
+            .catch((error) => {
+                console.log(error)
+                this.isLoading = false
+            })
         }
     },
     setup() {
-        const store = useComicsStore()
+        const store = useApiKey()
         return {
             store
         }
     },
     mounted() {
-        this.store.fetchComics()
+        this.fetchComics()
     },
     computed: {
         filteredComics() {
-            return this.store.getComics.filter((comic: any) => {
+            return this.comics.filter((comic: any) => {
                 return comic.title.toLowerCase().indexOf(this.search.toLowerCase()) != -1
             })
         }
@@ -38,7 +66,7 @@ export default defineComponent ({
 })
 </script>
 <template>
-    <div class="container">
+    <div class="container" v-if="!isLoading">
         <div class="search-bar">
             <input  type="text"
                 class="search"
@@ -51,19 +79,19 @@ export default defineComponent ({
                 <TheComicCard v-bind:comic="comic" />
             </div>
             <div class="pagination">
-                <vue-awesome-paginate
-                    :total-items="filteredComics.length"
-                    :items-per-page="6"
-                    :max-pages-shown="6"
-                    v-model="currentPage"
-                    :on-click="onClickHandler"
-                />
+                <Pagination
+                    v-bind:items="filteredComics"
+                    v-bind:current-page="currentPage"
+                    v-bind:pageSize="pageSize"
+                    @page-update-event="onClickHandler"
+                ></Pagination>
             </div>
         </div>
         <div v-else>
             <div class="no-data">There is no comic that matches your search</div>
         </div>
     </div>
+    <div class="loading" v-else>Loading...</div>
 </template>
 <style scoped>
 .container {
@@ -87,6 +115,10 @@ export default defineComponent ({
     margin: 50px; 
     font-size: 15px;
     text-align: center;
+}
+.loading {
+    text-align: center;
+    font-size: 15px;
 }
 .pagination {
     text-align: center;

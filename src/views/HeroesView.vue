@@ -1,38 +1,65 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useHeroesStore } from '@/stores';
+import { useApiKey } from '@/stores';
 import TheHeroCard from '@/components/TheHeroCard.vue';
+import Pagination from '../components/Pagination.vue';
+import { getHash } from '@/utils/generate-hash';
+import axios from 'axios';
 
 export default defineComponent ({
     name: "Heroes",
     data() {
         return {
-            currentPage: 1,
-            search: ""
+            currentPage: 0,
+            pageSize: 6,
+            search: "",
+            historyList: [],
+            isLoading: false,
+            heroes: []
         };
     },
     components: {
-        TheHeroCard
+        TheHeroCard,
+        Pagination
     },
     methods: {
         onClickHandler(page: number) {
-            console.log(page)
-            const newOffset = (page * 6) % this.store.getHeroes.length
-            console.log(newOffset)
+			let start = (page - 1) * this.pageSize
+			let end = page * this.pageSize
+			this.historyList = this.filteredHeroes.slice(start, end)
+			this.currentPage = page
+            console.log(this.currentPage)
+            console.log(this.historyList)
+        },
+        fetchHeroes() {
+            this.isLoading = true
+            let ts = Date.now().toString();
+            let hash = getHash(ts, this.store.getSecretKey, this.store.getPublicKey);
+            axios.get(`https://gateway.marvel.com:443/v1/public/characters?limit=30&ts=${ts}&apikey=${this.store.getPublicKey}&hash=${hash}`)
+            .then((response) => {
+                this.heroes = response.data.data.results
+                this.isLoading = false
+                console.log('this.heroes', this.heroes)
+                console.log('this.isLoading', this.isLoading)
+            })
+            .catch((error) => {
+                console.log(error)
+                this.isLoading = false
+            })
         }
     },
     setup() {
-        const store = useHeroesStore()
+        const store = useApiKey()
         return {
             store
         }
     },
-    async mounted() {
-       await this.store.fetchHeroes()
+    mounted() {
+        this.fetchHeroes()
     },
     computed: {
         filteredHeroes() {
-            return this.store.getHeroes.filter((hero: any) => {
+            return this.heroes.filter((hero: any) => {
                 return hero.name.toLowerCase().indexOf(this.search.toLowerCase()) != -1
             })
         }
@@ -40,7 +67,7 @@ export default defineComponent ({
 })
 </script>
 <template>
-    <div class="container">
+    <div class="container" v-if="!isLoading">
         <div class="search-bar">
             <input  type="text"
                 class="search"
@@ -53,19 +80,19 @@ export default defineComponent ({
                 <TheHeroCard v-bind:hero="hero" />
             </div>
             <div class="pagination">
-                <vue-awesome-paginate
-                    :total-items="filteredHeroes.length"
-                    :items-per-page="6"
-                    :max-pages-shown="6"
-                    v-model="currentPage"
-                    :on-click="onClickHandler"
-                />
+                <Pagination
+                    v-bind:items="filteredHeroes"
+                    v-bind:current-page="currentPage"
+                    v-bind:pageSize="pageSize"
+                    @page-update-event="onClickHandler"
+                ></Pagination>
             </div>
         </div>
         <div v-else>
             <div class="no-data">There is no hero that matches your search</div>
         </div>
     </div>
+    <div class="loading" v-else>Loading...</div>
 </template>
 <style scoped>
 .container {
@@ -88,6 +115,10 @@ export default defineComponent ({
     margin: 50px; 
     font-size: 15px;
     text-align: center;
+}
+.loading {
+    text-align: center;
+    font-size: 15px;
 }
 .pagination {
     text-align: center;

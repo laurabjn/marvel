@@ -85,10 +85,12 @@ export const useComicHeroesStore = defineStore('comicHeroes', {
 
 export const useHeroesStore = defineStore('heroes', {
     state: () => ({
-        heroesList: []
+        heroesList: [],
+        meta: {}
     }),
     getters: {
-        getHeroes: (state) => state.heroesList
+        getHeroes: (state) => state.heroesList,
+        getMeta: (state) => state.meta
     },
     actions: {
         async fetchHeroes() {
