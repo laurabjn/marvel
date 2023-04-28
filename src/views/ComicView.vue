@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useComicStore, useComicHeroesStore, useApiKey } from '@/stores';
+import { useApiKey } from '@/stores';
 import TheNavComic from '@/components/TheNavComic.vue';
 import TheInfoComic from '@/components/TheInfoComic.vue';
 import { getHash } from '@/utils/generate-hash';
@@ -53,24 +53,18 @@ export default defineComponent ({
     },
     setup() {
         const store = useApiKey()
-        const storeHeroes = useComicHeroesStore()
         return {
-            store,
-            storeHeroes
+            store
         }
     },
-    async mounted() {
-        /*await this.store.fetchComicById(this.$route.params.id)
-        await this.storeHeroes.fetchComicHeroesById(this.$route.params.id)
-        console.log('getcomic', this.store.getComic)
-        console.log('getHeroes', this.storeHeroes.getComicHeroes)*/
+    mounted() {
         this.fetchComic(this.$route.params.id)
         this.fetchComicHeroes(this.$route.params.id)
     },
 })
 </script>
 <template>
-    <div class="container">
+    <div class="container" v-if="!isLoading">
         <div class="info-comic">
             <TheInfoComic v-bind:comics="comic" />
         </div>
@@ -82,6 +76,7 @@ export default defineComponent ({
             <div class="no-data">There is no hero in that comic</div>
         </div>
     </div>
+    <div class="loading" v-else>Loading...</div>
 </template>
 <style scoped>
 .container {
@@ -97,5 +92,9 @@ export default defineComponent ({
     margin: 50px; 
     font-size: 15px;
     text-align: center;
+}
+.loading {
+    text-align: center;
+    font-size: 15px;
 }
 </style>
